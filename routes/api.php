@@ -28,8 +28,10 @@ Route::put('project', [ProjectController::class, 'update'])->name('project.updat
 Route::delete('project', [ProjectController::class, 'delete'])->name('project.delete');
 Route::get('TechSet', [TechsetController::class, 'list'])->name('TechSet.list');
 Route::get('users', [UserController::class, 'index'])->name('users.index');
-Route::get('user', [UserController::class, 'show'])->name('user.show');
+Route::get('user/{userId}', [UserController::class, 'show'])->name('user.show');
 Route::post('user', [UserController::class, 'create'])->name('user.create');
 Route::put('user', [UserController::class, 'update'])->name('user.update');
 Route::delete('user', [UserController::class, 'delete'])->name('user.delete');
 Route::post('login', [LoginController::class, 'authenticate'])->name('login.authenticate');
+Route::get('downloadDocument', [FileController::class, 'download'])->name('downloadDocument.download');
+Route::post('uploadDocument', [FileController::class, 'upload'])->name('uploadDocument.upload');
