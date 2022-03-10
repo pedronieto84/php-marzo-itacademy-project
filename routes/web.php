@@ -1,10 +1,9 @@
 <?php
 
-use App\Http\Controllers\ProjectController;
+
 use App\Http\Controllers\TechsetController;
 use App\Http\Controllers\UserController;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ProjectController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,8 +20,4 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('techsets', [TechsetController::class, 'index'])->name('techsets.index');
-Route::get('projects', [ProjectController::class, 'index'])->name('projects.index');
-Route::get('users', [UserController::class, 'index'])->name('users.index');
 
-});
