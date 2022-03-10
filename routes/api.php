@@ -26,7 +26,7 @@ Route::get('project/{projectId}', [ProjectController::class, 'show'])->name('pro
 Route::post('project', [ProjectController::class, 'create'])->name('project.create');
 Route::put('project', [ProjectController::class, 'update'])->name('project.update');
 Route::delete('project', [ProjectController::class, 'delete'])->name('project.delete');
-Route::get('TechSet', [TechsetController::class, 'list'])->name('TechSet.list');
+Route::get('techSet', [TechsetController::class, 'list'])->name('TechSet.list');
 Route::get('users', [UserController::class, 'index'])->name('users.index');
 Route::get('user/{userId}', [UserController::class, 'show'])->name('user.show');
 Route::post('user', [UserController::class, 'create'])->name('user.create');
