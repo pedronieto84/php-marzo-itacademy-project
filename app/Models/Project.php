@@ -36,4 +36,6 @@ class Project extends Model
         return $files;
     }
 
+    // protected $cast=['techsets'=>'array'];
+
 }
