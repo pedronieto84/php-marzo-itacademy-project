@@ -3,6 +3,7 @@
 namespace Database\Factories;
 
 use App\Models\User;
+use App\Models\Techset;
 use DateTime;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
