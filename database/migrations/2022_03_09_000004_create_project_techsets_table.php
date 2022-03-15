@@ -20,10 +20,10 @@ return new class extends Migration
                 ->on('projects')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');            
-            $table->bigInteger('techset_id',false,true); // sin autoincremento, unsigned
-            $table->unique(['project_id','techset_id']);
-            $table->foreign('techset_id')
-                ->references('id')
+            $table->string('techset_name',255);
+            $table->unique(['project_id','techset_name']);
+            $table->foreign('techset_name')
+                ->references('name')
                 ->on('techsets')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');            

@@ -2,10 +2,12 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\File;
 use App\Models\Project;
 use App\Models\ProjectTechset;
 use App\Models\Techset;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Validator;
 
 class ProjectController extends Controller
 {
@@ -14,7 +16,7 @@ class ProjectController extends Controller
         $projects = Project::all();
         foreach($projects as $project) {
             // $project['techsets'] = ProjectTechset::where('project_id',$project['id'])->get('techset_id');
-            $project['techsets'] = $project->projectTechsetNames($project['id']);
+            $project['techsets'] = $project->projectTechSet($project['id']);
             $project['files'] =  $project->projectFiles($project['id']);
             $response[] = $project;
         }
@@ -22,61 +24,88 @@ class ProjectController extends Controller
         return $response;
     }
 
-    public function show(Project $project){
-        $project['techsets'] = $project->projectTechsetNames($project['id']);
-        $project['files'] =  $project->projectFiles($project['id']);
-        return $project;
-        // return response()->json($project);
+    public function show($id){
+        $response = Project::projectById($id);
+        if ($response === null) {
+            return response(['error' => true, 'error-msg' => '404. Resource not found, Aquest projecte no existeix'], 404);
+        }
+        else {
+            return response()->json($response);
+            
+        }
     }
 
-    public function create(Request $request){
-        $request->validate([
+    public function create(Request $request, $project = null)
+    {
+        $json = $request->json()->all();
+
+        $validator = Validator::make([
+            'title' => $json['title'],
+            'publishedDate' => $json['publishedDate'],
+            'deadline' => $json['deadline'],
+            'shortExplanation' => $json['shortExplanation'],
+
+            ], [
             'title' => 'required|string',
-            'publishedDate' => 'required|date',
-            'deadline' => 'required|date',
-            'shortExplanation' => 'string|nullable'
+            'publishedDate' => 'required|dateformat:U',
+            'deadline' => 'required|dateformat:U',
+            'shortExplanation' => 'nullable|string',
         ]);
-        $project = new Project;
-        $project->user_id = $request->user_id;
-        $project->title = $request->title;
-        $project->publishedDate = $request->publishedDate;
-        $project->deadline = $request->deadline;
-        // techsets i files s'han de rebre també pel request? Com?
-        // $project['techsets'] = $request->projectTechsetNames($request);
-        // $project->techsets = $request->techsets;
-        $project['techsets'] = $request['techsets'];
-        // $project->files = $request->files;
-        $project->shortExplanation = $request->shortExplanation;
-        $project->state = $request->state;
-        $project->bid = $request->bid;
+        if ($validator->fails()) {
+            return response(['error' => true, 'error-msg' => '400. Data no tiene formato especificado'], 400);
+        }
+        if ($project === null) {
+            $project = new Project;
+        }
+        else {
+            ProjectTechset::where('project_id', $project->id)->delete();
+            File::where('project_id', $project->id)->delete();
+
+        }
+
+        $project->user_id = $json['user_id'];
+        $project->title = $json['title'];
+        $project->publishedDate = date('Y-m-d H:i:s', $json['publishedDate']);
+        $project->deadline = date('Y-m-d H:i:s', $json['deadline']);
+        $project->shortExplanation = $json['shortExplanation'];
+        $project->state = $json['state'];
+        $project->bid = $json['bid'];
         $project->save();
-        return $project;
-        // return response()->json($project);
+        foreach ($json['techSet'] as $techset) {
+            $projectTechset = new ProjectTechset();
+            $projectTechset->project_id = $project->id;
+            $projectTechset->techset_name = $techset;
+            $projectTechset->save();
+        }
+        foreach ($json['filesArray'] as $file) {
+            $projectFile = new File();
+            $projectFile->project_id = $project->id;
+            $projectFile->filename = $file['filename'];
+            $projectFile->filetype = $file['filetype'];
+            $projectFile->route = $file['route'];
+            $projectFile->save();
+        }
+        return $project->id;
     }
 
-    public function update(Request $request, Project $project){
-        // dd($project);
-        // dd($request);
-        $request->validate([
-            'title' => 'required|string',
-            'publishedDate' => 'required|date',
-            'deadline' => 'required|date',
-            'shortExplanation' => 'string|nullable'
-        ]);
-        $project->user_id = $request->user_id;
-        $project->title = $request->title;
-        $project->publishedDate = $request->publishedDate;
-        $project->deadline = $request->deadline;
-        $project->shortExplanation = $request->shortExplanation;
-        $project->state = $request->state;
-        $project->bid = $request->bid;
-        $project->save();
-        return $project;
-        // return response()->json($project);
+    public function update($id, Request $request){
+        $project = Project::find($id);
+        if ($project !== null) {
+            return $this->create($request, $project);
+        }
+        else {
+            return response(['error' => true, 'error-msg' => '400. Resource not found, Aquest projecte no existeix'], 400);
+        }
+
     }
 
-    public function delete(Project $project){
-        $project->delete();
-        return $project;
+    public function delete($id){
+        $deleted = Project::destroy($id);
+        if ($deleted) {
+            return $id;
+        }
+        else {
+            return response(['error' => true, 'error-msg' => '400. Resource not found, Aquest projecte no existeix'], 400);
+        }
     }
 }

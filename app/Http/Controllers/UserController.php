@@ -11,4 +11,15 @@ class UserController extends Controller
     {
         return response()->json(User::allUsers());
     }
+
+    public function show($id){
+        $response = User::userById($id);
+        if ($response === null) {
+            return response(['error' => true, 'error-msg' => '404. Resource not found, Aquest usuari no existeix'], 404);
+        }
+        else {
+            return response()->json($response);
+        }
+    }
+
 }

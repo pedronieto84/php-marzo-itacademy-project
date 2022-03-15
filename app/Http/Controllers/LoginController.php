@@ -16,14 +16,6 @@ class LoginController extends Controller
      */
     public function authenticate(Request $request)
     {
-
-
-        /*
-        return response()->json([
-            $request->input('parametro')
-        ]);        
-        */
-
         $email = $request->input('email');
         $password = $request->input('password');
 

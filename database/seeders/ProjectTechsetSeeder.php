@@ -25,11 +25,12 @@ class ProjectTechsetSeeder extends Seeder
         */
 
         $this->faker = Faker::create();
+        $techsets = ['html','css','ajax','php','vue', 'node'];
         for($c=1; $c<=50; $c++) {
             ProjectTechset::firstOrCreate(
                 [
                     'project_id' => $this->faker->numberBetween(Project::all()->first()->id, Project::all()->last()->id),
-                    'techset_id' => $this->faker->numberBetween(Techset::all()->first()->id, Techset::all()->last()->id)
+                    'techset_name' => $techsets[rand(0,5)]
                 ]
             );
         }            

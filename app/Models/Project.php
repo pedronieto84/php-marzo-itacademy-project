@@ -3,6 +3,7 @@
 namespace App\Models;
 
 use Carbon\Carbon;
+use DateTimeInterface;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -11,25 +12,17 @@ class Project extends Model
     use HasFactory;
     public $timestamps = FALSE;
 
-    public function projectTechsetIds($id) {
+
+    public static function projectTechSet($id) {
         $techsets = null;
-        $project_techsets = ProjectTechset::where('project_id',$id)->get('techset_id');
+        $project_techsets = ProjectTechset::select('techset_name')->where('project_id',$id)->get();
         foreach($project_techsets as $project_techset) {
-            $techsets[] = Techset::find($project_techset['techset_id'])['id'];
+            $techsets[] = $project_techset['techset_name'];
         }
         return $techsets;
     }    
 
-    public function projectTechsetNames($id) {
-        $techsets = null;
-        $project_techsets = ProjectTechset::where('project_id',$id)->get('techset_id');
-        foreach($project_techsets as $project_techset) {
-            $techsets[] = Techset::find($project_techset['techset_id'])['name'];
-        }
-        return $techsets;
-    }    
-
-    public function projectFiles($id) {
+    public static function projectFiles($id) {
         $files = null;
         $project_files = File::select('id','filename','filetype','route')->where('project_id',$id)->get();
         foreach($project_files as $project_file) {
@@ -37,6 +30,15 @@ class Project extends Model
         }
         return $files;
     }
+
+    public static function projectById($id) {
+        $project = Project::find($id);
+        if ($project !== null) {
+            $project['files'] = self::projectFiles($id);
+            $project['techSet'] = self::projectTechSet($id);
+        }
+        return $project;
+    }    
 
     /**
      * The attributes that should be cast.
@@ -54,9 +56,6 @@ class Project extends Model
      * @var string
      */
     protected $dateFormat = 'U';
-
-    
-
 
     // protected $cast=['techsets'=>'array'];
 

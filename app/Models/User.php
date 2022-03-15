@@ -49,6 +49,9 @@ class User extends Authenticatable
         return $date->format('U');
     }    
     
+    public static function userById($id) {        
+        return User::find($id);
+    }
 
     public static function allUsers() {
         $users = User::all();
