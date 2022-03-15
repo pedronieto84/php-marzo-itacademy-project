@@ -17,12 +17,11 @@ return new class extends Migration
             $table->id();
             $table->string('name');
             $table->string('email')->unique();
-            $table->timestamp('email_verified_at')->nullable();
+            $table->dateTime('email_verified_at')->nullable();
             $table->string('password');
             $table->boolean('admin');
             $table->enum('typeOfInstitution',['Empresa Pública','ONG o empreses del 3er sector','Empresa Privada','Altres']);
             $table->rememberToken();
-            $table->timestamps();
         });
     }
 

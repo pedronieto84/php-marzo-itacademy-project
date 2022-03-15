@@ -14,9 +14,8 @@ return new class extends Migration
     public function up()
     {
         Schema::create('techsets', function (Blueprint $table) {
-            $table->id();
             $table->string('name',255)->unique();
-            $table->timestamps();
+            $table->primary('name');
         });
     }
 

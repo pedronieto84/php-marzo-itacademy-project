@@ -2,12 +2,14 @@
 
 namespace App\Models;
 
+use Carbon\Carbon;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
 class Project extends Model
 {
     use HasFactory;
+    public $timestamps = FALSE;
 
     public function projectTechsetIds($id) {
         $techsets = null;
@@ -35,6 +37,26 @@ class Project extends Model
         }
         return $files;
     }
+
+    /**
+     * The attributes that should be cast.
+     *
+     * @var array<string, string>
+     */
+    protected $casts = [
+        'publishedDate' => 'datetime:U',
+        'deadline' => 'datetime:U'
+    ];
+
+    /**
+     * The storage format of the model's date columns.
+     *
+     * @var string
+     */
+    protected $dateFormat = 'U';
+
+    
+
 
     // protected $cast=['techsets'=>'array'];
 

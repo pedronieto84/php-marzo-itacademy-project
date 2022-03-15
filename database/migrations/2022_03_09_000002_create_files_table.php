@@ -24,7 +24,6 @@ return new class extends Migration
             $table->string('filename',255);
             $table->string('filetype',255);
             $table->string('route',255);
-            $table->timestamps();
         });
     }
 

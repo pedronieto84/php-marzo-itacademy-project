@@ -22,12 +22,11 @@ return new class extends Migration
                 ->onDelete('cascade')
                 ->onUpdate('cascade');
             $table->string('title',255);
-            $table->timestamp('publishedDate')->nullable(); // Si no pongo nullable, default value es urrent_timestamp()
-            $table->timestamp('deadline')->nullable(); // Si no pongo nullable y publishedDate no es nullable, la migración da error ¿Alguien lo entiende?
+            $table->dateTime('publishedDate'); // Si no pongo nullable, default value es urrent_timestamp()
+            $table->dateTime('deadline'); // Si no pongo nullable y publishedDate no es nullable, la migración da error ¿Alguien lo entiende?
             $table->string('shortExplanation',255);
             $table->enum('state',['accepted','published','refused','doing','finished']);
             $table->decimal('bid',9,2,true); // unsigned con 9 digitos, 2 de ellos decimales
-            $table->timestamps();
         });
     }
 

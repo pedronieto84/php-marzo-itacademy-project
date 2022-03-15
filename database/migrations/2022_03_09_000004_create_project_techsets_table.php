@@ -27,7 +27,6 @@ return new class extends Migration
                 ->on('techsets')
                 ->onDelete('cascade')
                 ->onUpdate('cascade');            
-            $table->timestamps();
         });
     }
 

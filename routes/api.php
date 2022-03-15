@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\LoginController;
-use App\Http\ControllersTechsetController;
+use App\Http\Controllers\TechsetController;
 
 /*
 |--------------------------------------------------------------------------
@@ -27,12 +27,12 @@ Route::get('project/{project}', [ProjectController::class, 'show'])->name('proje
 Route::post('project', [ProjectController::class, 'create'])->name('project.create');
 Route::put('project/{project}', [ProjectController::class, 'update'])->name('project.update');
 Route::delete('project/{project}', [ProjectController::class, 'delete'])->name('project.delete');
-// Route::get('techSet', [TechsetController::class, 'index'])->name('TechSet.index');
 Route::get('users', [UserController::class, 'index'])->name('users.index');
 Route::get('user/{userId}', [UserController::class, 'show'])->name('user.show');
 Route::post('user', [UserController::class, 'create'])->name('user.create');
 Route::put('user', [UserController::class, 'update'])->name('user.update');
 Route::delete('user', [UserController::class, 'delete'])->name('user.delete');
+Route::get('techSet', [TechsetController::class, 'index'])->name('techSet.index');
 Route::post('login', [LoginController::class, 'authenticate'])->name('login.authenticate');
 // Route::get('downloadDocument', [FileController::class, 'download'])->name('downloadDocument.download');
 // Route::post('uploadDocument', [FileController::class, 'upload'])->name('uploadDocument.upload');

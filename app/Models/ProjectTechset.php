@@ -8,4 +8,5 @@ use Illuminate\Database\Eloquent\Model;
 class ProjectTechset extends Model
 {
     use HasFactory;
+    public $timestamps = FALSE;
 }

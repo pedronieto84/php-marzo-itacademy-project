@@ -20,7 +20,6 @@ class ProjectFactory extends Factory
     public function definition()
     {
         $state = ['accepted','published','refused','doing','finished'][rand(0,4)];
-
         return [
             'user_id' => $this->faker->numberBetween(User::all()->first()->id, User::all()->last()->id),
             'title' => ucwords ( str_replace('.','',$this->faker->sentence(2)) . ' Project' ),
@@ -31,4 +30,5 @@ class ProjectFactory extends Factory
             'bid' => $this->faker->randomFloat(2,1000,100000)
         ];
     }
+
 }
