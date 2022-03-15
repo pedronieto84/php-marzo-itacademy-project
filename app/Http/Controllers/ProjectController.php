@@ -52,7 +52,7 @@ class ProjectController extends Controller
             'shortExplanation' => 'nullable|string',
         ]);
         if ($validator->fails()) {
-            return response(['error' => true, 'error-msg' => '400. Data no tiene formato especificado'], 400);
+            return response(['error' => true, 'error-msg' => '400. Bad request, data no tiene formato especificado'], 400);
         }
         if ($project === null) {
             $project = new Project;
@@ -94,7 +94,7 @@ class ProjectController extends Controller
             return $this->create($request, $project);
         }
         else {
-            return response(['error' => true, 'error-msg' => '400. Resource not found, Aquest projecte no existeix'], 400);
+            return response(['error' => true, 'error-msg' => '404. Resource not found, Aquest projecte no existeix'], 404);
         }
 
     }
@@ -105,7 +105,7 @@ class ProjectController extends Controller
             return $id;
         }
         else {
-            return response(['error' => true, 'error-msg' => '400. Resource not found, Aquest projecte no existeix'], 400);
+            return response(['error' => true, 'error-msg' => '404. Resource not found, Aquest projecte no existeix'], 404);
         }
     }
 }
