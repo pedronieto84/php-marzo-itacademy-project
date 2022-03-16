@@ -45,17 +45,17 @@ class UserController extends Controller
         if ($validator->fails()) {
             return response(['error' => true, 'error-msg' => '400. Bad request, data no tiene formato especificado'], 400);
         }
-        $validator = Validator ::make([
-            'email' => $json['email'],
-            ], [
-            'email' => 'required|unique:users,email',]
-        );
-        if ($validator->fails()) {
-            return response(['error' => true, 'error-msg' => '400. Bad request, el email ya existe'], 400);
-        }
 
         if ($user === null) {
             $user = new User();
+            $validator = Validator ::make([
+                'email' => $json['email'],
+                ], [
+                'email' => 'required|unique:users,email',]
+            );
+            if ($validator->fails()) {
+                return response(['error' => true, 'error-msg' => '400. Bad request, el email ya existe'], 400);
+            }    
         }
         $user->name = $json['name'];
         $user->email = $json['email'];
