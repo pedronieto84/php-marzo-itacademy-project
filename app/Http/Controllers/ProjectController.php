@@ -54,7 +54,6 @@ class ProjectController extends Controller
         else {
             ProjectTechset::where('project_id', $project->id)->delete();
             File::where('project_id', $project->id)->delete();
-
         }
 
         $project->user_id = $json->user_id;
@@ -86,7 +85,6 @@ class ProjectController extends Controller
                 $projectFile->save();
             }
         }   
-        
         return $project->id;
     }
 
@@ -98,7 +96,6 @@ class ProjectController extends Controller
         else {
             return response(['error' => true, 'error-msg' => '404. Resource not found, Aquest projecte no existeix'], 404);
         }
-
     }
 
     public function delete($id) {
