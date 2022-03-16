@@ -20,17 +20,17 @@ class LoginController extends Controller
         $password = $request->input('password');
 
         $validator = Validator::make(['email' => $email], [
-            'email' => 'email',
+            'email' => 'required|regex:/\S+@\S+.\S+/u',
         ]);
         if ($validator->fails()) {
             return response()->json([ 'mensaje' => 'formato de email incorrecto' ]);
         }
 
         $validator = Validator::make(['password' => $password], [
-            'password' => 'required',
+               'password' => 'required|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,8}$/'
         ]);
         if ($validator->fails()) {
-            return response()->json([ 'mensaje' => 'no se introdujo ningún password' ]);
+            return response()->json([ 'mensaje' => 'formato de password incorrecto' ]);
         }
 
         $credentials = $request->validate([
@@ -45,7 +45,7 @@ class LoginController extends Controller
                 return response()->json([ 'mensaje' => 'la cuenta aún no ha sido activada, revise su correo' ]);
             }
             else {
-                $request->session()->regenerate();
+                // $request->session()->regenerate();
                 return response()->json([ Auth::user() ]);
             }
         }

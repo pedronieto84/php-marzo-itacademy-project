@@ -28,6 +28,7 @@ class UserFactory extends Factory
             // 'email_verified_at' => rand(0,1) ? null : now(),
             'email_verified_at' => rand(0,1) ? null : $this->faker->dateTimeBetween(new DateTime('-9 weeks'), new DateTime('-3 weeks')),
             'password' => Hash::make(strstr($email, '@', true)), // el password es el email sin el dominio
+            'password' => Hash::make('adm123'), // el password es el email sin el dominio
             'admin' => $this->faker->numberBetween(0,1),
             'remember_token' => Str::random(10),
             'typeOfInstitution' => $typeOfInstitution

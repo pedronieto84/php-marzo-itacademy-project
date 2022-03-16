@@ -37,7 +37,7 @@ class Project extends Model
             $project['files'] = self::projectFiles($id);
             $project['techSet'] = self::projectTechSet($id);
         }
-        return $project;
+        return $project;    
     }    
 
     /**
