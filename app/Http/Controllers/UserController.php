@@ -60,7 +60,7 @@ class UserController extends Controller
         $user->name = $json['name'];
         $user->email = $json['email'];
         $user->password = Hash::make($json['password']);
-        $user->email_verified_at = isset($json['verified']) ? ($json['verified'] ? new DateTime(now()) : null) : null;
+        $user->email_verified_at = isset($json['verified']) ? ($json['verified'] ? new DateTime(now()) : false) : null;
         $user->admin = isset($json['admin']) ? ( $json['admin'] ? 1 : 0 ) : null;
         $user->typeOfInstitution = isset($json['typeOfInstitution']) ? $json['typeOfInstitution'] : null;
         $user->save();
