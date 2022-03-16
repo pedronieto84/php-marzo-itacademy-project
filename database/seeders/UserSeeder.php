@@ -24,13 +24,12 @@ class UserSeeder extends Seeder
             ->create();
             $typeOfInstitution = ['Empresa Pública','ONG o empreses del 3er sector','Empresa Privada','Altres'][rand(0,3)];        
             $faker = Factory::create();
-            $email = $faker->unique()->safeEmail();
             User::create ([
                 'name' => $faker->name(),
                 'email' => 'admin@example.org',
                 'email_verified_at' => $faker->dateTimeBetween(new DateTime('-9 weeks'), new DateTime('-3 weeks')),
                 'password' => Hash::make('adm123'), // el password es el email sin el dominio
-                'admin' => true,
+                'admin' => 1,
                 'remember_token' => Str::random(10),
                 'typeOfInstitution' => $typeOfInstitution
             ]);            
@@ -39,7 +38,7 @@ class UserSeeder extends Seeder
                 'email' => 'noadmin@example.org',
                 'email_verified_at' => $faker->dateTimeBetween(new DateTime('-9 weeks'), new DateTime('-3 weeks')),
                 'password' => Hash::make('adm123'), // el password es el email sin el dominio
-                'admin' => false,
+                'admin' => 1,
                 'remember_token' => Str::random(10),
                 'typeOfInstitution' => $typeOfInstitution
             ]);            
