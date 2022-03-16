@@ -48,6 +48,10 @@ class ProjectController extends Controller
         if ($validator->fails()) {
             return response(['error' => true, 'error-msg' => '400. Bad request, data no tiene formato especificado'], 400);
         }
+        $validatedData = $request->validate([
+            'filesArray.*' => 'mimes:png,jpg,jpeg,pdf'
+            ]);
+        
         if ($project === null) {
             $project = new Project;
         }
