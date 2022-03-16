@@ -11,15 +11,19 @@ class FileController extends Controller
 {
     public function get($id, $download = false) {
         $file = File::fileById($id);
-        $filename = $file->filename;
-        $filetype = $file->filetype;
-        $route = $file->route;
-        $path = $route . '/' . $filename;
-        if ($download) {
-            return Storage::download($path);
+        if ($file === null) {
+            return response(['error' => true, 'error-msg' => '404. Resource not found, Aquest fitxer no existeix'], 404);
         }
         else {
-            return Storage::response($path);
+            $filename = $file->filename;
+            $filetype = $file->filetype;
+            $route = $file->route;
+            $path = $route . '/' . $filename;
+            if ($download) {
+                return Storage::download($path);
+            } else {
+                return Storage::response($path);
+            }
         }
     }
     public function download($id) {
