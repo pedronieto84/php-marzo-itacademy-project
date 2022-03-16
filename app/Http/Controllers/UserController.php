@@ -48,7 +48,7 @@ class UserController extends Controller
 
         if ($user === null) {
             $user = new User();
-            $validator = Validator ::make([
+            $validator = Validator::make([
                 'email' => $json['email'],
                 ], [
                 'email' => 'required|unique:users,email',]
