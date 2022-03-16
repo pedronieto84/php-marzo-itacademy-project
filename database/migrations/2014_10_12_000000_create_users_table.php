@@ -19,8 +19,8 @@ return new class extends Migration
             $table->string('email')->unique();
             $table->dateTime('email_verified_at')->nullable();
             $table->string('password');
-            $table->boolean('admin');
-            $table->enum('typeOfInstitution',['Empresa Pública','ONG o empreses del 3er sector','Empresa Privada','Altres']);
+            $table->boolean('admin') -> nullable();
+            $table->enum('typeOfInstitution',['Empresa Pública','ONG o empreses del 3er sector','Empresa Privada','Altres'])->nullable();
             $table->rememberToken();
         });
     }

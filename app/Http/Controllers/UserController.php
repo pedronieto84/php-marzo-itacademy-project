@@ -31,16 +31,16 @@ class UserController extends Controller
                 'name' => $json['name'],
                 'email' => $json['email'],
                 'password' => $json['password'],
-                'verified' => $json['verified'],
-                'admin' => $json['admin'],
-                'typeOfInstitution' => $json['typeOfInstitution']
+                'verified' => $json['verified'] ?? null,
+                'admin' => $json['admin'] ?? null,
+                'typeOfInstitution' => $json['typeOfInstitution'] ?? null
             ], [
                 'name' => 'required|string',
                 'email' => 'required|regex:/\S+@\S+.\S+/u',
                 'password' => 'required|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,8}$/',
-                'verified' => 'required|boolean',
-                'admin' => 'required|boolean',
-                'typeOfInstitution' => 'required|string|in:Empresa Pública,ONG o empreses del 3er sector,Empresa Privada,Altres']
+                'verified' => 'nullable|boolean',
+                'admin' => 'nullable|boolean',
+                'typeOfInstitution' => 'string|nullable|in:Empresa Pública,ONG o empreses del 3er sector,Empresa Privada,Altres']
             );
         if ($validator->fails()) {
             return response(['error' => true, 'error-msg' => '400. Bad request, data no tiene formato especificado'], 400);
@@ -60,9 +60,9 @@ class UserController extends Controller
         $user->name = $json['name'];
         $user->email = $json['email'];
         $user->password = Hash::make($json['password']);
-        $user->email_verified_at = $json['verified'] ? new DateTime(now()) : null;
-        $user->admin = $json['admin'] ? 1 : 0;
-        $user->typeOfInstitution = $json['typeOfInstitution'];
+        $user->email_verified_at = isset($json['verified']) ? ($json['verified'] ? new DateTime(now()) : null) : null;
+        $user->admin = isset($json['admin']) ? ( $json['admin'] ? 1 : 0 ) : null;
+        $user->typeOfInstitution = isset($json['typeOfInstitution']) ? $json['typeOfInstitution'] : null;
         $user->save();
         return $user->id;
     }

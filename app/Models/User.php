@@ -59,6 +59,8 @@ class User extends Authenticatable
         $users = User::all();
         foreach($users as $user) {
             $user['projectsPublished'] = self::userProjects($user['id']);
+            $user['admin'] = $user['admin'] ? true : false;
+            $user['verified'] = $user['email_verified_at'] == null ? false : true;
             $response[] = $user;
         }
         return $response;

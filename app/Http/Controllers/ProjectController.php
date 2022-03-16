@@ -35,15 +35,16 @@ class ProjectController extends Controller
         $json = json_decode($request['request']);
         $validator = Validator::make([
             'title' => $json->title,
-            'publishedDate' => $json->publishedDate,
-            'deadline' => $json->deadline,
-            'shortExplanation' => $json->shortExplanation,
-
+            'publishedDate' => $json->publishedDate ?? null,
+            'deadline' => $json->deadline ?? null,
+            'shortExplanation' => $json->shortExplanation ?? null,
+            'state' => $json->state ?? null,
             ], [
             'title' => 'required|string',
-            'publishedDate' => 'required|dateformat:U',
-            'deadline' => 'required|dateformat:U',
+            'publishedDate' => 'nullable|dateformat:U',
+            'deadline' => 'nullable|dateformat:U',
             'shortExplanation' => 'nullable|string',
+            'state' => 'string|nullable|in:accepted,published,refused,doing,finished]'
         ]);
         if ($validator->fails()) {
             return response(['error' => true, 'error-msg' => '400. Bad request, data no tiene formato especificado'], 400);
@@ -62,17 +63,19 @@ class ProjectController extends Controller
 
         $project->user_id = $json->user_id;
         $project->title = $json->title;
-        $project->publishedDate = date('Y-m-d H:i:s', $json->publishedDate);
-        $project->deadline = date('Y-m-d H:i:s', $json->deadline);
-        $project->shortExplanation = $json->shortExplanation;
-        $project->state = $json->state;
-        $project->bid = $json->bid;
+        $project->publishedDate = isset($json->publishedDate) ? date('Y-m-d H:i:s', $json->publishedDate) : null;
+        $project->deadline = isset($json->deadline) ? date('Y-m-d H:i:s', $json->deadline) : null;
+        $project->shortExplanation = isset($json->shortExplanation) ? $json->shortExplanation : null;
+        $project->state = isset($json->state) ? $json->state : null;
+        $project->bid = isset($json->bid) ? $json->bid : null;
         $project->save();
-        foreach ($json->techSet as $techset) {
-            $projectTechset = new ProjectTechset();
-            $projectTechset->project_id = $project->id;
-            $projectTechset->techset_name = $techset;
-            $projectTechset->save();
+        if (isset($json->techSet)) { 
+            foreach ($json->techSet as $techset) {
+                $projectTechset = new ProjectTechset();
+                $projectTechset->project_id = $project->id;
+                $projectTechset->techset_name = $techset;
+                $projectTechset->save();
+            }
         }
         
         if ($request->hasfile('filesArray')) {
