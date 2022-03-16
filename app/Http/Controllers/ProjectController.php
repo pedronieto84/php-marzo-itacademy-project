@@ -15,7 +15,7 @@ class ProjectController extends Controller
         $projects = Project::all();
         foreach($projects as $project) {
             $project['techsets'] = $project->projectTechSet($project['id']);
-            $project['files'] =  $project->projectFiles($project['id']);
+            $project['filesArray'] =  $project->projectFiles($project['id']);
             $response[] = $project;
         }
         return $response;

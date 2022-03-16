@@ -50,7 +50,9 @@ class User extends Authenticatable
     }    
     
     public static function userById($id) {        
-        return User::find($id);
+        $user = User::find($id);
+        $user['projectsPublished'] = self::userProjects($user['id']);
+        return $user;
     }
 
     public static function allUsers() {

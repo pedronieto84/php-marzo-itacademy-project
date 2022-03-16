@@ -34,7 +34,7 @@ class Project extends Model
     public static function projectById($id) {
         $project = Project::find($id);
         if ($project !== null) {
-            $project['files'] = self::projectFiles($id);
+            $project['filesArray'] = self::projectFiles($id);
             $project['techSet'] = self::projectTechSet($id);
         }
         return $project;    
