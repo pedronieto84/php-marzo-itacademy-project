@@ -18,7 +18,7 @@ class UserController extends Controller
     public function show($id){
         $response = User::userById($id);
         if ($response === null) {
-            return response(['error' => true, 'error-msg' => '404. Resource not found, Aquest usuari no existeix'], 404);
+            return response(['error' => true, 'message' => '404. Resource not found, Aquest usuari no existeix'], 404);
         }
         else {
             return response()->json($response);
@@ -43,7 +43,7 @@ class UserController extends Controller
                 'typeOfInstitution' => 'string|nullable|in:Empresa Pública,ONG o empreses del 3er sector,Empresa Privada,Altres']
             );
         if ($validator->fails()) {
-            return response(['error' => true, 'error-msg' => '400. Bad request, data no tiene formato especificado'], 400);
+            return response(['error' => true, 'message' => '400. Bad request, data no tiene formato especificado'], 400);
         }
 
         if ($user === null) {
@@ -54,7 +54,7 @@ class UserController extends Controller
                 'email' => 'required|unique:users,email',]
             );
             if ($validator->fails()) {
-                return response(['error' => true, 'error-msg' => '400. Bad request, el email ya existe'], 400);
+                return response(['error' => true, 'message' => '400. Bad request, el email ya existe'], 400);
             }    
         }
         $user->name = $json['name'];
@@ -73,7 +73,7 @@ class UserController extends Controller
             return $this->create($request, $user);
         }
         else {
-            return response(['error' => true, 'error-msg' => '404. Resource not found, Aquest usuari no existeix'], 404);
+            return response(['error' => true, 'message' => '404. Resource not found, Aquest usuari no existeix'], 404);
         }
     }
 
@@ -83,7 +83,7 @@ class UserController extends Controller
             return $id;
         }
         else {
-            return response(['error' => true, 'error-msg' => '404. Resource not found, Aquest usuari no existeix'], 404);
+            return response(['error' => true, 'message' => '404. Resource not found, Aquest usuari no existeix'], 404);
         }
     }    
 

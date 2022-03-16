@@ -23,14 +23,14 @@ class LoginController extends Controller
             'email' => 'required|regex:/\S+@\S+.\S+/u',
         ]);
         if ($validator->fails()) {
-            return response()->json([ 'mensaje' => 'formato de email incorrecto' ]);
+            return response([ 'error' => true, 'message' => 'formato de email incorrecto', 400 ]);
         }
 
         $validator = Validator::make(['password' => $password], [
                'password' => 'required|regex:/^(?=.*[A-Za-z])(?=.*\d)[A-Za-z\d]{4,8}$/'
         ]);
         if ($validator->fails()) {
-            return response()->json([ 'mensaje' => 'formato de password incorrecto' ]);
+            return response([ 'error' => true, 'message' => 'formato de password incorrecto', 400 ]);
         }
 
         $credentials = $request->validate([
@@ -42,14 +42,14 @@ class LoginController extends Controller
             $user = Auth::user();
             if ($user['email_verified_at'] === null) {
                 Auth::logout();
-                return response()->json([ 'mensaje' => 'la cuenta aún no ha sido activada, revise su correo' ]);
+                return response([ 'error' => true, 'message' => 'la cuenta aún no ha sido activada, revise su correo', 400 ]);
             }
             else {
                 // $request->session()->regenerate();
-                return response()->json([ Auth::user() ]);
+                return response([ Auth::user() ]);
             }
         }
  
-        return response()->json([ 'mensaje' => 'no coincide con nuestros registros' ]);
+        return response([ 'error' => true, 'message' => 'no coincide con nuestros registros', 400 ]);
     }
 }
