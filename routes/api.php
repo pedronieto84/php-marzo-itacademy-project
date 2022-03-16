@@ -39,7 +39,7 @@ Route::get('file/{file}', [FileController::class, 'get'])->name('file.get');
 Route::get('file/{file}/download', [FileController::class, 'get'])->name('file.download');
 Route::get('/.well-known/acme-challenge/{token}', function (string $token) {
     return \Illuminate\Support\Facades\Storage::get('public/.well-known/acme-challenge/' . $token);
-})
+});
 
 // Route::get('downloadDocument', [FileController::class, 'download'])->name('downloadDocument.download');
 // Route::post('uploadDocument', [FileController::class, 'upload'])->name('uploadDocument.upload');
