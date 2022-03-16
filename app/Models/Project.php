@@ -24,7 +24,7 @@ class Project extends Model
 
     public static function projectFiles($id) {
         $files = null;
-        $project_files = File::select('id','filename','filetype','route')->where('project_id',$id)->get();
+        $project_files = File::select('id','filename','filetype')->where('project_id',$id)->get();
         foreach($project_files as $project_file) {
             $files[] = $project_file;
         }

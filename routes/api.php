@@ -1,5 +1,6 @@
 <?php
 
+use App\Http\Controllers\FileController;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ProjectController;
@@ -34,5 +35,7 @@ Route::put('user/{user}', [UserController::class, 'update'])->name('user.update'
 Route::delete('user/{user}', [UserController::class, 'delete'])->name('user.delete');
 Route::get('techSet', [TechsetController::class, 'index'])->name('techSet.index');
 Route::post('login', [LoginController::class, 'authenticate'])->name('login.authenticate');
+Route::get('file/{file}', [FileController::class, 'get'])->name('file.get');
+Route::get('file/{file}/download', [FileController::class, 'get'])->name('file.download');
 // Route::get('downloadDocument', [FileController::class, 'download'])->name('downloadDocument.download');
 // Route::post('uploadDocument', [FileController::class, 'upload'])->name('uploadDocument.upload');

@@ -9,4 +9,8 @@ class File extends Model
 {
     use HasFactory;
     public $timestamps = FALSE;
+
+    public static function fileById($id) {        
+        return File::find($id);
+    }
 }
