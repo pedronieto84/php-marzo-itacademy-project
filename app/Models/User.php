@@ -52,6 +52,8 @@ class User extends Authenticatable
     public static function userById($id) {        
         $user = User::find($id);
         $user['projectsPublished'] = self::userProjects($user['id']);
+        $user['admin'] = $user['admin'] ? true : false;
+        $user['verified'] = $user['email_verified_at'] == null ? false : true;
         return $user;
     }
 
