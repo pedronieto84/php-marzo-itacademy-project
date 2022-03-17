@@ -8,10 +8,11 @@ use App\Models\ProjectTechset;
 use App\Models\Techset;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
+use Nette\Utils\Json;
 
 class ProjectController extends Controller
 {
-    public function index(Request $request, $mensaje = '') {
+    public function index(Request $request  ) {
         $projects = Project::all();
         foreach($projects as $project) {
             $project['techsets'] = $project->projectTechSet($project['id']);

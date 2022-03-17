@@ -10,7 +10,7 @@ use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
-    public function index(Request $request, $mensaje = '')
+    public function index(Request $request)
     {
         return response()->json(User::allUsers());
     }

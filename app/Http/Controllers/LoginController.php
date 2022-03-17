@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -46,7 +47,8 @@ class LoginController extends Controller
             }
             else {
                 // $request->session()->regenerate();
-                return response([ Auth::user() ]);
+                // return response([ Auth::user() ]);
+                return response(User::userById(Auth::id()));
             }
         }
  
